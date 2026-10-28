@@ -1,0 +1,20 @@
+name: Check release tag
+
+# OpenUPM publishes every semver tag and finds the package in Assets/RicKit/AutoUI on its own.
+# This only checks that the tag matches package.json, so a mistyped tag fails visibly.
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag matches package.json version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(jq -r .version Assets/RicKit/AutoUI/package.json)
+          echo "tag $GITHUB_REF_NAME, package.json $version"
+          test "$tag" = "$version"
