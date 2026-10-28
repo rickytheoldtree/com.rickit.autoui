@@ -1,0 +1,7 @@
+{
+  "name": "AutoUI.Editor",
+  "rootNamespace": "AutoUI.Editor",
+  "references": ["Unity.ugui", "Unity.TextMeshPro"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}
