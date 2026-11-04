@@ -249,9 +249,11 @@ namespace AutoUI.Editor
             var previous = File.Exists(manifestPath) ? JObject.Parse(File.ReadAllText(manifestPath)) : new JObject();
             var paths = new HashSet<string>(registered.Select(entry => entry.Value<string>("path")));
             // Files no longer used stay registered so a later plan can still report or update them.
+            // An adopted manifest's node IDs belong to the old package, so they are dropped.
+            var adopted = previous.Value<string>("documentId") is string id && id != plan.Value<string>("documentId");
             var unused = (previous["assets"] as JArray ?? new JArray()).Cast<JObject>()
                 .Where(entry => !paths.Contains(entry.Value<string>("path")) && File.Exists(entry.Value<string>("path")))
-                .Select(entry => { entry["unused"] = true; return entry; });
+                .Select(entry => { entry["unused"] = true; if (adopted) entry["nodeIds"] = new JArray(); return entry; });
             var manifest = new JObject
             {
                 ["schemaVersion"] = 1,

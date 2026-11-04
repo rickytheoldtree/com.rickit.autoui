@@ -1,4 +1,8 @@
 # Changelog
+## [0.7.0] - 2026-11-04
+### Changed
+- When a plan adopts a manifest written for another package of the same page, files carried over as unused lose their old node IDs, which name layers of the old design.
+
 ## [0.6.0] - 2026-10-28
 First release on OpenUPM (previously embedded as `com.autoui.pipeline`).
 ### Removed
